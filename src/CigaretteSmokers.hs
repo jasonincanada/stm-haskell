@@ -7,6 +7,11 @@
     explicit locks or mutexes in this code--we have thrown them to the wind and adopted
     STM's powerful 'retry' mechanism instead.
 
+    This is a slight simplification of the original problem, as we only use a single
+    signalling semaphore for a smoker to let the agent know it's time to place the next
+    ingredients down. We can get away with this because the problem only has one smoker
+    smoking at a time.
+
 
  Resources:
 
