@@ -1,5 +1,7 @@
 module Main where
 
+import CigaretteSmokers
+
 main :: IO ()
-main = print "stm-haskell"
+main = cigaretteSmokers
 
