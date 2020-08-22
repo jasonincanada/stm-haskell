@@ -82,7 +82,7 @@ smoker name first second signal = do
 
   putStrLn $ "Starting thread for " ++ name
 
-  forkIO $ forever (atomically gather >> smoke)
+  forkIO $ forever (atomically gather >> smoke >> place signal)
 
   where
 
@@ -114,7 +114,6 @@ smoker name first second signal = do
     smoke :: IO ()
     smoke = putStrLn (name ++ " smokes for 1 second...")
               >> wait 1
-              >> place signal
 
 
 -- roll for a number between 1 and 3
