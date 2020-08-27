@@ -66,7 +66,7 @@ goBarber waiting sleeping =
     sleep = do
       putStrLn "Sleeping..."
 
-      atomically $ readTVar sleeping >>= flip when retry
+      atomically $ readTVar sleeping >>= (`when` retry)
 
 
     work :: IO ()
