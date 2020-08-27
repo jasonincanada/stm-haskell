@@ -25,8 +25,7 @@
 
 module SleepingBarber (sleepingBarber) where
 
-import Control.Concurrent.STM (atomically, retry, orElse, STM, TVar,
-                               newTVar, readTVar, modifyTVar, writeTVar)
+import Control.Concurrent.STM (atomically, retry, orElse, STM, TVar, newTVar, readTVar, modifyTVar, writeTVar)
 import Control.Concurrent     (forkIO, threadDelay)
 import Control.Monad          (forever, replicateM_, unless, when)
 import Data.Function          ((&))
