@@ -1,7 +1,7 @@
 module Main where
 
-import SleepingBarber
+import MultipleBarbers
 
 main :: IO ()
-main = sleepingBarber
+main = multipleBarbers
 
