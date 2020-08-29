@@ -258,7 +258,7 @@ waitFor tvar = atomically $ readTVar tvar >>= \case Nothing -> retry
                                                     Just a  -> return a
 
 
--- FIFO queue, callers will block until their turn at the end of the queue, then
+-- FIFO queue, callers will block until their turn at the front of the queue, then
 -- execute the task they were waiting to do at the counter, then leave the queue
 
 -- Note: there's a risk here that the queue will be modified arbitrarily outside this
