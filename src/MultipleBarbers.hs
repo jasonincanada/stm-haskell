@@ -2,14 +2,20 @@
 
 {-  MultipleBarbers.hs
 
-    Checking in first draft that sort of works... still some bugs to iron out and it
-    could do with some more refactoring
+    An implementation of the Multiple Barbers problem using software transactional memory
+    in Haskell with the STM monad. It models the orderly coordination of customers and
+    barbers in a 3-chair barbershop, with room for 4 customers to wait on a couch and room
+    for 8 additional customers to stand while waiting.
 
-    Bugs:
-      - only 1 barber seems to fall asleep at the end of the output, the other 2 are
-        still in TakingPayment
-      - commonly seeing 5 satisfied customer messages in a row but there should be max 3
+    After a barber finishes a cut and cashes out their customer, they first check the
+    couch for anyone waiting, taking the longest-waiting customer if so, or they fall
+    asleep in their chair if there's no customer. When a customer is drawn from the couch,
+    any standing customer sits down, in order of who has been standing the longest.
 
+    This is tricky to implement using traditional lock-based mechanics (see [1] p. 135)
+    but pretty easy with new transactional memory techniques [2], in particular the retry
+    mechanism, which is used wherever you would see explicit locks in traditional
+    concurrency methods.
 
 
  References:
