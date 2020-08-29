@@ -25,7 +25,7 @@
 
 module MultipleBarbers (multipleBarbers) where
 
-import Control.Concurrent.STM (atomically, retry, orElse, STM, TVar, newTVar, readTVar, modifyTVar, writeTVar)
+import Control.Concurrent.STM (atomically, retry, orElse, STM, TVar, newTVar, readTVar, readTVarIO, modifyTVar, writeTVar)
 import Control.Concurrent     (forkIO, threadDelay, ThreadId)
 import Control.Monad          (forever, forM_, unless, when)
 import System.Random          (randomRIO)
@@ -92,11 +92,11 @@ multipleBarbers = do
   -- confirm 0 people standing and sitting after two hours
   wait (2*60)
 
-  atomically (readTVar couch   ) >>= print . length
-  atomically (readTVar standing) >>= print . length
-  atomically (readTVar barber1 ) >>= print
-  atomically (readTVar barber2 ) >>= print
-  atomically (readTVar barber3 ) >>= print
+  readTVarIO couch    >>= print . length
+  readTVarIO standing >>= print . length
+  readTVarIO barber1  >>= print
+  readTVarIO barber2  >>= print
+  readTVarIO barber3  >>= print
 
   where
     -- start a thread for a new customer arriving at the shop
