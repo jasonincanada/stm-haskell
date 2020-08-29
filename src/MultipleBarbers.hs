@@ -273,14 +273,14 @@ lineUpFor queue task = do
   us <- new ()
 
   -- add ourselves to the back of the queue
-  atomically $ modifyTVar queue (us:)
+  atomically $ modifyTVar queue (++[us])
 
-  -- wait until we're next
-  atomically $ readTVar queue >>= \q -> unless (last q == us) retry
+  -- wait until we're next in line at the front of the queue
+  atomically $ readTVar queue >>= \q -> unless (head q == us) retry
 
   task
 
-  atomically $ modifyTVar queue init
+  atomically $ modifyTVar queue tail
 
 
 now :: TVar a -> a -> IO ()
