@@ -270,7 +270,7 @@ lineUpFor queue task = do
   atomically $ modifyTVar queue (us:)
 
   -- wait until we're next
-  atomically $ readTVar queue >>= \q -> unless (last q == m) retry
+  atomically $ readTVar queue >>= \q -> unless (last q == us) retry
 
   task
 
