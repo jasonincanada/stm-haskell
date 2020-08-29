@@ -270,7 +270,7 @@ type Queue = TVar [TVar ()]
 lineUpFor :: Queue -> IO () -> IO ()
 lineUpFor queue task = do
 
-  us <- atomically $ newTVar ()
+  us <- new ()
 
   -- add ourselves to the back of the queue
   atomically $ modifyTVar queue (us:)
