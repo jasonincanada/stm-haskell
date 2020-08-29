@@ -175,8 +175,8 @@ barber i im BarberShop{..} =
         sitDown :: STM ()
         sitDown = readTVar standing
                     >>= \case [] -> return ()
-                              ss -> do modifyTVar couch (++[last ss])
-                                       modifyTVar standing init
+                              ss -> do modifyTVar couch (++[head ss])
+                                       modifyTVar standing tail
 
 
         -- the alternative transaction if tryCouch retrys
