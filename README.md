@@ -16,8 +16,8 @@ and not-so-classic problems from [The Little Book of Semaphores](https://greente
 Problem | Description / Notes
 --- | ---
 [Cigarette Smokers](src/CigaretteSmokers.hs) | Three smokers at a table contend for materials set down by an agent
-[Sleeping Barber](src/SleepingBarber.hs) | Customers contend for a single barber at a barbershop, with 3 chairs in the waiting area
-[Multiple Barbers](src/MultipleBarbers.hs) | Like *Sleeping Barber* but there are now 3 barbers, with a couch for 4 waiting customers and standing room for 8 more
-[Sushi Bar 1](src/SushiBar1.hs) | Customers queue up to visit a 5-seat sushi bar, but sometimes have to wait for all customers to leave before sitting down
-[Sushi Bar 2](src/SushiBar2.hs) | Like *Sushi Bar 1* but a more correct interpretation of the problem description
+[Sleeping Barber](src/SleepingBarber.hs) | Customers contend for a single barber at a barbershop, with 3 chairs<br/>in the waiting area
+[Multiple Barbers](src/MultipleBarbers.hs) | Like *Sleeping Barber* but there are now 3 barbers, with a couch for<br/>4 waiting customers and standing room for 8 more
+[Sushi Bar 1](src/SushiBar1.hs) | Customers queue up to visit a 5-seat sushi bar, but sometimes have<br/>to wait for all customers to leave before sitting down
+[Sushi Bar 2](src/SushiBar2.hs) | Like *Sushi Bar 1* but a more correct interpretation of the problem
 
