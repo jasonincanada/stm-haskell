@@ -35,6 +35,7 @@ import Control.Concurrent.STM (atomically, retry, orElse, STM, TVar, newTVar, re
 import Control.Concurrent     (forkIO, threadDelay, ThreadId)
 import Control.Monad          (forever, forM_, unless, when)
 import System.Random          (randomRIO)
+import Text.Printf            (printf)
 
 
 -- the state of a customer is the barber they're paired up with
@@ -93,7 +94,7 @@ multipleBarbers = do
   forkIO $ goPrinter log
 
   -- start a stream of 20 customers, one every 5 minutes
-  forM_ [1..20] (\name -> wait 5 >> show name `arriveAt` shop)
+  forM_ [1..20] (\name -> wait 5 >> name `arriveAt` shop)
 
   -- confirm 0 people standing and sitting after two hours
   wait (2*60)
@@ -106,7 +107,7 @@ multipleBarbers = do
 
   where
     -- start a thread for a new customer arriving at the shop
-    arriveAt :: String -> BarberShop -> IO ThreadId
+    arriveAt :: Int -> BarberShop -> IO ThreadId
     arriveAt name shop = do cust  <- new Nothing
                             forkIO $ customer name cust shop
 
@@ -123,7 +124,7 @@ barber i im BarberShop{..} =
     sleep = do
       now im Sleeping
 
-      log $ "Barber " ++ show i ++ " sleeping..."
+      say "Sleeping..."
 
       waitWhile im Sleeping
 
@@ -132,7 +133,7 @@ barber i im BarberShop{..} =
     work = do
       now im Cutting
 
-      log $ "Barber " ++ show i ++ " cutting hair..."
+      say "Cutting hair..."
 
       -- cuts take somewhere between 15 and 45 minutes
       roll 15 45 >>= wait
@@ -148,7 +149,7 @@ barber i im BarberShop{..} =
         now payment False
 
 
-      log $ "Barber " ++ show i ++ " done with customer"
+      say "Done with customer"
 
       fellAsleep <- nextCustomer
       unless fellAsleep work
@@ -184,6 +185,10 @@ barber i im BarberShop{..} =
         fallAsleep = writeTVar im Sleeping >> return True
 
 
+    say :: String -> IO ()
+    say message = log $ printf "Barber %d %s" i message
+
+
 
 {- Customer thread -}
 
@@ -191,7 +196,7 @@ barber i im BarberShop{..} =
 data Result = Woke | SatDown | Standing | Lost
 
 
-customer :: String -> MyBarber -> BarberShop -> IO ()
+customer :: Int -> MyBarber -> BarberShop -> IO ()
 customer name myBarber BarberShop{..} = do
 
   thus  <- atomically $ wake barber1 |>
@@ -202,10 +207,10 @@ customer name myBarber BarberShop{..} = do
                         leave
 
   case thus of
-    Woke     -> log (name ++ " Woke a barber") >> waitFor myBarber >>= getHairCut
-    SatDown  -> log (name ++ " Sat down...")   >> waitFor myBarber >>= getHairCut
-    Standing -> log (name ++ " Standing...")   >> waitFor myBarber >>= getHairCut
-    Lost     -> log (name ++ " Lost customer")
+    Woke     -> say "Woke a barber" >> waitFor myBarber >>= getHairCut
+    SatDown  -> say "Sat down..."   >> waitFor myBarber >>= getHairCut
+    Standing -> say "Standing..."   >> waitFor myBarber >>= getHairCut
+    Lost     -> say "Lost customer"
 
   where
 
@@ -236,12 +241,16 @@ customer name myBarber BarberShop{..} = do
       -- consider our cut done when the barber has reached the cash register for payment
       waitUntil barber TakingPayment
 
-      log (name ++ " Paying...")
+      say "Paying..."
       now payment True           -- place our payment on the counter
       waitUntil payment False    -- wait for the barber to pick it up
 
       -- cut done!
-      log (name ++ " Another satisfied customer!")
+      say "Another satisfied customer!"
+
+
+    say :: String -> IO ()
+    say message = log $ printf "%d %s" name message
 
 
 
