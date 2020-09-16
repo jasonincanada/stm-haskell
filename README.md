@@ -20,4 +20,5 @@ Problem | Description / Notes
 [Multiple Barbers](src/MultipleBarbers.hs) | Like *Sleeping Barber* but there are now 3 barbers, with a couch for<br/>4 waiting customers and standing room for 8 more
 [Sushi Bar 1](src/SushiBar1.hs) | Customers queue up to visit a 5-seat sushi bar, but sometimes have<br/>to wait for all customers to leave before sitting down
 [Sushi Bar 2](src/SushiBar2.hs) | Like *Sushi Bar 1* but a more correct interpretation of the problem
+[Santa Claus](src/SantaClaus.hs) | 9 reindeer and 10 elves contend for Santa's attention
 
