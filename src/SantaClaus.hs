@@ -104,7 +104,6 @@ goActor actorType name need queue log = do
     say "Away we go, thanks Santa!"
     we `now`       Away
 
-
   where
 
     waitIn :: Actor -> Queue -> IO ()
@@ -158,13 +157,11 @@ goSanta stable lobby log =
     say "Releasing the crew..."
     setAll actors Unhitched
 
-
   where
 
     getReindeer, getElves :: STM ([Actor], IO (), String)
     getReindeer = needsAtLeast stable 9 deliverToys  "delivering toys!"
     getElves    = needsAtLeast lobby  3 consultSanta "consulting with elves"
-
 
     -- wait until a queue has a certain number of actors waiting, then remove
     -- them from the queue and return them to the calling code
@@ -246,7 +243,6 @@ goPrinter log = forever print
 
       -- this is the only call to putStrLn in the whole file
       mapM_ putStrLn lines
-
 
 -- called from within threads that have been passed a Log
 output :: Log -> String -> IO ()
