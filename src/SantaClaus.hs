@@ -153,9 +153,7 @@ goSanta stable lobby log =
 
     task
 
-    -- wait for all actors to be back Waiting to be unhitched or sent away
-    forM_ actors $ \actor -> 
-      atomically $ readTVar actor >>= \(_, s) -> unless (s == Waiting) retry
+    waitUntilAll actors Waiting
 
     say "Releasing the crew..."
     setAll actors Unhitched
@@ -188,6 +186,15 @@ goSanta stable lobby log =
     setAll :: [Actor] -> Status -> IO ()
     setAll actors s = forM_ actors $ \actor ->
                         modifyA actor $ fmap (const s)
+
+
+    -- block until all actors are in the same status
+    waitUntilAll :: [Actor] -> Status -> IO ()
+    waitUntilAll actors status =
+
+      forM_ actors $ \actor ->
+            atomically $ readTVar actor >>= \(_, s) -> unless (s == status) retry
+
 
     say :: String -> IO ()
     say message = output log $ printf "Santa 🎅 - %s" message
