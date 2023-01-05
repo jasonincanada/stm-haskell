@@ -1,17 +1,8 @@
 # stm-haskell
 
-Concurrent algorithms in Haskell using software transactional memory with the STM monad.
-The programs here implement the ideas in the 2005 paper [Composable Memory
-Transactions](https://www.microsoft.com/en-us/research/wp-content/uploads/2005/01/2005-ppopp-composable.pdf)
-by a group at Microsoft Research working on transactional memory techniques. The two main
-gists here are 1) no explicit locks or mutexes are used in the code anywhere, and 2) memory
-transactions are *composable*, freely and robustly so with no added risk of finicky lock
-management bugs. These two factors greatly simplify the conceptual model of concurrent
-programming and make previously nightmarish development tasks a breeze.
+Concurrent algorithms in Haskell using software transactional memory with the STM monad. The programs here implement the ideas in the 2005 paper [Composable Memory Transactions](https://www.microsoft.com/en-us/research/wp-content/uploads/2005/01/2005-ppopp-composable.pdf). The two main gists are 1) no explicit locks or mutexes are used in the code, and 2) memory transactions are *composable*, freely and robustly so with no added risk of finicky lock management bugs.
 
-The programs below are a mixture of classic concurrency problems from computer science,
-and not-so-classic problems from [The Little Book of Semaphores](https://greenteapress.com/wp/semaphores/) (free in PDF format).
-
+The programs below are a mixture of classic concurrency problems from computer science, and problems from [The Little Book of Semaphores](https://greenteapress.com/wp/semaphores/). They are ordered roughly by complexity, starting with a simple example of 3 agents contending for shared resources.
 
 Problem | Description / Notes
 --- | ---
